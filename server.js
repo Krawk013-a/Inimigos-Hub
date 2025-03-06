@@ -25,7 +25,3 @@ wss.on('connection', (ws) => {
         console.log('Cliente desconectado');
     });
 });
-
-server.listen(3000, () => {
-    console.log('Servidor WebSocket rodando na porta 3000');
-});

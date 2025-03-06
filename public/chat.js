@@ -16,7 +16,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Conecta ao servidor WebSocket
     const websocket = new WebSocket('wss://inimigos-hub-o9ml.onrender.com');
-
     // Quando a conexão é aberta
     websocket.onopen = () => {
         console.log('Conectado ao servidor WebSocket');

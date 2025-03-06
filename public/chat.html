@@ -5,6 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chat</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        /* Estilo do botão "Jogar Retro Bowl" */
+        .retrobowl-button {
+            font-size: 12px;          /* Tamanho da fonte */
+            padding: 5px 10px;        /* Espaçamento interno (vertical, horizontal) */
+            border: 1px solid #ccc;   /* Borda fina */
+            border-radius: 4px;       /* Cantos arredondados */
+            background-color: #f0f0f0; /* Cor de fundo */
+            cursor: pointer;          /* Cursor de ponteiro ao passar o mouse */
+            text-decoration: none;    /* Remove sublinhado do texto */
+            color: #333;              /* Cor do texto */
+            display: inline-block;    /* Faz o botão ocupar apenas o espaço do texto */
+            margin-top: 20px;         /* Espaçamento acima do botão */
+        }
+
+        /* Efeito ao passar o mouse */
+        .retrobowl-button:hover {
+            background-color: #e0e0e0; /* Cor de fundo ao passar o mouse */
+        }
+    </style>
 </head>
 <body>
     <div class="chat">
@@ -14,9 +34,10 @@
             <button type="button" id="send-button">Enviar mensagem</button> <!-- type="button" evita o submit automático -->
         </form>
     </div>
-    <script src="chat.js"></script>
-    
-    <button onclick="window.location.href='retrobowl.html'">Jogar Retro Bowl</button>
 
+    <!-- Botão "Jogar Retro Bowl" -->
+    <button class="retrobowl-button" onclick="window.location.href='retrobowl.html'">Jogar Retro Bowl</button>
+
+    <script src="chat.js"></script>
 </body>
 </html>

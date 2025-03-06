@@ -1,33 +1,46 @@
+const express = require('express');
 const http = require('http');
-const WebSocket = require('ws');
+const app = express();
+const server = http.createServer(app);
 
-const server = http.createServer((req, res) => {
-    res.writeHead(200, { 'Content-Type': 'text/plain' });
-    res.end('WebSocket server is running');
+// Armazena as mensagens do chat
+let messages = [];
+
+// Rota para enviar mensagens
+app.post('/send', express.json(), (req, res) => {
+    const { sender, message, color } = req.body;
+    if (sender && message && color) {
+        messages.push({ sender, message, color });
+        res.status(200).send('Mensagem enviada');
+    } else {
+        res.status(400).send('Dados inválidos');
+    }
 });
 
-const wss = new WebSocket.Server({ server });
+// Rota para receber mensagens (Long Polling)
+app.get('/receive', (req, res) => {
+    const lastMessageId = parseInt(req.query.lastMessageId) || 0;
 
-wss.on('connection', (ws) => {
-    console.log('Novo cliente conectado');
+    // Verifica se há novas mensagens a cada segundo
+    const checkForNewMessages = () => {
+        if (lastMessageId < messages.length) {
+            res.status(200).json({
+                messages: messages.slice(lastMessageId),
+                lastMessageId: messages.length
+            });
+        } else {
+            setTimeout(checkForNewMessages, 1000); // Espera 1 segundo e verifica novamente
+        }
+    };
 
-    ws.on('message', (message) => {
-        console.log('Mensagem recebida:', message.toString());
-
-        // Envia a mensagem para todos os clientes conectados
-        wss.clients.forEach((client) => {
-            if (client.readyState === WebSocket.OPEN) {
-                client.send(message.toString());
-            }
-        });
-    });
-
-    ws.on('close', () => {
-        console.log('Cliente desconectado');
-    });
+    checkForNewMessages();
 });
 
+// Servir arquivos estáticos
+app.use(express.static('public'));
+
+// Iniciar o servidor
 const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => {
-    console.log(`Servidor WebSocket rodando na porta ${PORT}`);
+    console.log(`Servidor rodando na porta ${PORT}`);
 });

@@ -14,18 +14,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const colors = ["cadetblue", "darkgoldenrod", "cornflowerblue", "darkkhaki", "hotpink", "gold"];
     const userColor = colors[Math.floor(Math.random() * colors.length)];
 
-    // Conecta ao servidor WebSocket
-    const websocket = new WebSocket('wss://inimigos-hub-o9ml.onrender.com');
-    // Quando a conexão é aberta
-    websocket.onopen = () => {
-        console.log('Conectado ao servidor WebSocket');
-    };
-
-    // Quando uma mensagem é recebida
-    websocket.onmessage = (event) => {
-        const data = JSON.parse(event.data);
-        const { sender, message, color } = data;
-
+    // Função para exibir mensagens
+    const displayMessage = (sender, message, color) => {
         const messageElement = document.createElement('div');
         messageElement.classList.add(sender === username ? 'message--self' : 'message--other');
 
@@ -42,19 +32,50 @@ document.addEventListener('DOMContentLoaded', () => {
         chatMessages.scrollTop = chatMessages.scrollHeight;
     };
 
+    // Função para enviar mensagens
+    const sendMessage = async (message) => {
+        const response = await fetch('/send', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ sender: username, message, color: userColor })
+        });
+
+        if (!response.ok) {
+            console.error('Erro ao enviar mensagem');
+        }
+    };
+
+    // Função para receber mensagens (Long Polling)
+    const receiveMessages = async (lastMessageId = 0) => {
+        try {
+            const response = await fetch(`/receive?lastMessageId=${lastMessageId}`);
+            if (response.ok) {
+                const data = await response.json();
+                data.messages.forEach((msg) => {
+                    displayMessage(msg.sender, msg.message, msg.color);
+                });
+                receiveMessages(data.lastMessageId); // Faz uma nova requisição
+            } else {
+                console.error('Erro ao receber mensagens');
+                setTimeout(() => receiveMessages(lastMessageId), 1000); // Tenta novamente após 1 segundo
+            }
+        } catch (error) {
+            console.error('Erro na requisição:', error);
+            setTimeout(() => receiveMessages(lastMessageId), 1000); // Tenta novamente após 1 segundo
+        }
+    };
+
     // Envia uma mensagem
     sendButton.addEventListener('click', (event) => {
-        event.preventDefault(); // Previne o comportamento padrão
+        event.preventDefault(); // Previne o recarregamento da página
 
         const message = chatInput.value.trim();
         if (message) {
-            const data = {
-                sender: username,
-                message: message,
-                color: userColor
-            };
-            websocket.send(JSON.stringify(data));
+            sendMessage(message);
             chatInput.value = ''; // Limpa o campo de input
         }
     });
+
+    // Inicia o Long Polling para receber mensagens
+    receiveMessages();
 });

@@ -3,19 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chat com Amigos</title>
+    <title>Escolha seu nome</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div id="chat-container">
-        <div id="chat-window"></div>
-        <div id="user-input">
-            <input type="text" id="username" placeholder="Escolha seu nome">
-            <input type="text" id="message" placeholder="Digite sua mensagem">
-            <button id="send-button">Enviar</button>
-        </div>
+    <div id="login-container">
+        <h1>Bem-vindo ao Chat</h1>
+        <input type="text" id="username" placeholder="Escolha seu nome">
+        <button id="enter-chat">Entrar no Chat</button>
     </div>
-    <script src="/socket.io/socket.io.js"></script>
-    <script src="script.js"></script>
+    <script src="main.js"></script>
 </body>
 </html>

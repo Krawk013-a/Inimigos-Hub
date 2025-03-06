@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const chatMessages = document.querySelector('.chat__messages');
     const chatForm = document.querySelector('.chat__form');
     const chatInput = document.querySelector('.chat__input');
+    const sendButton = document.getElementById('send-button');
 
     // Recupera o nome do usuário do localStorage
     const username = localStorage.getItem('username');
@@ -43,8 +44,8 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // Envia uma mensagem
-    chatForm.addEventListener('submit', (event) => {
-        event.preventDefault(); // Impede o recarregamento da página
+    sendButton.addEventListener('click', (event) => {
+        event.preventDefault(); // Previne o comportamento padrão
 
         const message = chatInput.value.trim();
         if (message) {

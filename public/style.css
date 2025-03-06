@@ -54,12 +54,12 @@ button:hover {
 }
 
 .message--self {
-    color: #F8F8FF;
+    color: #0C0C0C;
     text-align: right;
 }
 
 .message--other {
-    color: #F0F8FF;
+    color: #0C0C0C;
     text-align: left;
 }
 

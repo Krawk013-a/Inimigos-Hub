@@ -65,7 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    // Envia uma mensagem
+    // Envia uma mensagem ao clicar no botão
     sendButton.addEventListener('click', (event) => {
         event.preventDefault(); // Previne o recarregamento da página
 
@@ -73,6 +73,19 @@ document.addEventListener('DOMContentLoaded', () => {
         if (message) {
             sendMessage(message);
             chatInput.value = ''; // Limpa o campo de input
+        }
+    });
+
+    // Envia uma mensagem ao pressionar Enter
+    chatInput.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter') {
+            event.preventDefault(); // Previne o recarregamento da página
+
+            const message = chatInput.value.trim();
+            if (message) {
+                sendMessage(message);
+                chatInput.value = ''; // Limpa o campo de input
+            }
         }
     });
 

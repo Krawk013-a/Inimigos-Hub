@@ -7,11 +7,13 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div id="login-container">
-        <h1>Bem-vindo ao Chat</h1>
-        <input type="text" id="username" placeholder="Escolha seu nome">
-        <button id="enter-chat">Entrar no Chat</button>
+    <div class="login">
+        <form class="login__form">
+            <input type="text" class="login__input" placeholder="Escolha seu nome">
+            <button type="submit">Entrar no Chat</button>
+        </form>
     </div>
+    <script src="/socket.io/socket.io.js"></script>
     <script src="main.js"></script>
 </body>
 </html>

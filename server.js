@@ -6,17 +6,15 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
 
-// Servir arquivos estáticos
 app.use(express.static('public'));
 
-// Configuração do Socket.IO
 io.on('connection', (socket) => {
     console.log('Um usuário conectou');
 
     // Quando um novo usuário entra
-    socket.on('new user', (username) => {
-        socket.username = username;
-        io.emit('user connected', username);
+    socket.on('new user', (user) => {
+        socket.user = user;
+        io.emit('user connected', user.name);
     });
 
     // Quando uma mensagem é enviada
@@ -26,13 +24,12 @@ io.on('connection', (socket) => {
 
     // Quando um usuário desconecta
     socket.on('disconnect', () => {
-        if (socket.username) {
-            io.emit('user disconnected', socket.username);
+        if (socket.user) {
+            io.emit('user disconnected', socket.user.name);
         }
     });
 });
 
-// Iniciar o servidor
 const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => {
     console.log(`Servidor rodando na porta ${PORT}`);

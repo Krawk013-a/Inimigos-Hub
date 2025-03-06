@@ -1,45 +1,78 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const socket = io();
-    const chatWindow = document.getElementById('chat-window');
-    const messageInput = document.getElementById('message');
-    const sendButton = document.getElementById('send-button');
+    const chat = document.querySelector('.chat');
+    const chatForm = chat.querySelector('.chat__form');
+    const chatInput = chat.querySelector('.chat__input');
+    const chatMessages = chat.querySelector('.chat__messages');
 
-    // Recupera o nome do usuário do localStorage
-    const username = localStorage.getItem('username');
-    if (!username) {
-        window.location.href = 'index.html'; // Redireciona se não houver nome
+    // Recupera o usuário do localStorage
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (!user) {
+        window.location.href = 'index.html'; // Redireciona se não houver usuário
     }
 
-    // Notifica que o usuário entrou no chat
-    socket.emit('new user', username);
+    // Conecta ao servidor Socket.IO
+    const socket = io();
 
-    // Enviar mensagem
-    sendButton.addEventListener('click', () => {
-        const message = messageInput.value.trim();
+    // Notifica que o usuário entrou no chat
+    socket.emit('new user', user);
+
+    // Cria uma mensagem enviada por você
+    const createMessageSelfElement = (content) => {
+        const div = document.createElement('div');
+        div.classList.add('message--self');
+        div.innerHTML = content;
+        return div;
+    };
+
+    // Cria uma mensagem enviada por outro usuário
+    const createMessageOtherElement = (content, sender, senderColor) => {
+        const div = document.createElement('div');
+        const span = document.createElement('span');
+
+        div.classList.add('message--other');
+        span.classList.add('message--sender');
+        span.style.color = senderColor;
+
+        span.innerHTML = sender;
+        div.appendChild(span);
+        div.innerHTML += content;
+
+        return div;
+    };
+
+    // Envia uma mensagem
+    chatForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+
+        const message = chatInput.value.trim();
         if (message) {
-            socket.emit('chat message', { username, message });
-            messageInput.value = '';
+            socket.emit('chat message', { user, content: message });
+            chatInput.value = '';
         }
     });
 
-    // Receber mensagens
+    // Recebe uma mensagem
     socket.on('chat message', (data) => {
-        const messageElement = document.createElement('div');
-        messageElement.innerHTML = `<strong>${data.username}:</strong> ${data.message}`;
-        chatWindow.appendChild(messageElement);
-        chatWindow.scrollTop = chatWindow.scrollHeight;
+        const { user: sender, content } = data;
+        const messageElement =
+            sender.id === user.id
+                ? createMessageSelfElement(content)
+                : createMessageOtherElement(content, sender.name, sender.color);
+
+        chatMessages.appendChild(messageElement);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
     });
 
-    // Notificar quando um usuário entra ou sai
+    // Notifica quando um usuário entra ou sai
     socket.on('user connected', (name) => {
         const messageElement = document.createElement('div');
         messageElement.innerHTML = `<em>${name} entrou no chat.</em>`;
-        chatWindow.appendChild(messageElement);
+        chatMessages.appendChild(messageElement);
     });
 
     socket.on('user disconnected', (name) => {
         const messageElement = document.createElement('div');
         messageElement.innerHTML = `<em>${name} saiu do chat.</em>`;
-        chatWindow.appendChild(messageElement);
+        chatMessages.appendChild(messageElement);
     });
 });

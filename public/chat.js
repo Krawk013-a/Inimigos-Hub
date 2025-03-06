@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Envia uma mensagem
     chatForm.addEventListener('submit', (event) => {
-        event.preventDefault();
+        event.preventDefault(); // Impede o recarregamento da página
 
         const message = chatInput.value.trim();
         if (message) {
@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 color: userColor
             };
             websocket.send(JSON.stringify(data));
-            chatInput.value = '';
+            chatInput.value = ''; // Limpa o campo de input
         }
     });
 });

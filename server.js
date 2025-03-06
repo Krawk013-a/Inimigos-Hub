@@ -1,36 +1,31 @@
-const express = require('express');
 const http = require('http');
-const { Server } = require('socket.io');
+const WebSocket = require('ws');
 
-const app = express();
-const server = http.createServer(app);
-const io = new Server(server);
+const server = http.createServer();
+const wss = new WebSocket.Server({ server });
 
-app.use(express.static('public'));
+wss.on('connection', (ws) => {
+    console.log('Novo cliente conectado');
 
-io.on('connection', (socket) => {
-    console.log('Um usuário conectou');
+    // Quando uma mensagem é recebida
+    ws.on('message', (message) => {
+        const data = JSON.parse(message);
+        console.log('Mensagem recebida:', data);
 
-    // Quando um novo usuário entra
-    socket.on('new user', (user) => {
-        socket.user = user;
-        io.emit('user connected', user.name);
+        // Envia a mensagem para todos os clientes conectados
+        wss.clients.forEach((client) => {
+            if (client.readyState === WebSocket.OPEN) {
+                client.send(JSON.stringify(data));
+            }
+        });
     });
 
-    // Quando uma mensagem é enviada
-    socket.on('chat message', (data) => {
-        io.emit('chat message', data);
-    });
-
-    // Quando um usuário desconecta
-    socket.on('disconnect', () => {
-        if (socket.user) {
-            io.emit('user disconnected', socket.user.name);
-        }
+    // Quando o cliente desconecta
+    ws.on('close', () => {
+        console.log('Cliente desconectado');
     });
 });
 
-const PORT = process.env.PORT || 3000;
-server.listen(PORT, () => {
-    console.log(`Servidor rodando na porta ${PORT}`);
+server.listen(3000, () => {
+    console.log('Servidor WebSocket rodando na porta 3000');
 });

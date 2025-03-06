@@ -8,7 +8,7 @@ body {
     margin: 0;
 }
 
-#login-container, #chat-container {
+.login, .chat {
     width: 300px;
     background-color: #fff;
     border-radius: 8px;
@@ -17,11 +17,11 @@ body {
     text-align: center;
 }
 
-#login-container h1 {
+.login h1 {
     margin-bottom: 20px;
 }
 
-#username, #message {
+.login__input, .chat__input {
     width: 100%;
     padding: 10px;
     margin-bottom: 10px;
@@ -43,7 +43,7 @@ button:hover {
     background-color: #218838;
 }
 
-#chat-window {
+.chat__messages {
     height: 300px;
     overflow-y: auto;
     border: 1px solid #ddd;
@@ -51,4 +51,19 @@ button:hover {
     padding: 10px;
     margin-bottom: 10px;
     text-align: left;
+}
+
+.message--self {
+    color: #333;
+    text-align: right;
+}
+
+.message--other {
+    color: #555;
+    text-align: left;
+}
+
+.message--sender {
+    font-weight: bold;
+    display: block;
 }

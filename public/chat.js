@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const userColor = colors[Math.floor(Math.random() * colors.length)];
 
     // Conecta ao servidor WebSocket
-    const websocket = new WebSocket('ws://inimigos-hub-o9ml.onrender.com');
+    const websocket = new WebSocket('wss://inimigos-hub-o9ml.onrender.com');
 
     // Quando a conexão é aberta
     websocket.onopen = () => {

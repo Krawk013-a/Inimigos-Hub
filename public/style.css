@@ -79,3 +79,21 @@ button:hover {
     font-weight: bold;
     display: block;
 }
+
+/* Estilo do botão "Jogar Retro Bowl" */
+.retrobowl-button {
+    font-size: 12px;
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #f0f0f0;
+    cursor: pointer;
+    text-decoration: none;
+    color: #333;
+    display: inline-block;
+    margin-top: 20px;
+}
+
+.retrobowl-button:hover {
+    background-color: #e0e0e0;
+}

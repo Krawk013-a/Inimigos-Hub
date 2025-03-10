@@ -17,6 +17,18 @@ body {
     text-align: center;
 }
 
+/* Estilo para as imagens no chat */
+.chat__messages img {
+    max-width: 500px;  /* Largura máxima da imagem */
+    max-height: 500px; /* Altura máxima da imagem */
+    width: auto;       /* Mantém a proporção da imagem */
+    height: auto;      /* Mantém a proporção da imagem */
+    display: block;    /* Garante que a imagem não fique inline */
+    margin: 10px 0;    /* Espaçamento entre as imagens */
+    border-radius: 8px; /* Cantos arredondados (opcional) */
+    object-fit: cover;  /* Garante que a imagem cubra o espaço sem distorcer */
+}
+
 .login h1 {
     margin-bottom: 20px;
 }

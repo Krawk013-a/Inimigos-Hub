@@ -45,6 +45,31 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
+
+    // Função para exibir uma imagem no chat
+function displayImage(sender, imageUrl) {
+    const chatMessages = document.querySelector('.chat__messages');
+
+    // Cria um elemento de imagem
+    const imgElement = document.createElement('img');
+    imgElement.src = imageUrl;
+    imgElement.alt = 'Imagem enviada';
+
+    // Cria um contêiner para a mensagem
+    const messageElement = document.createElement('div');
+    messageElement.classList.add('message--image');
+    messageElement.appendChild(imgElement);
+
+    // Adiciona a mensagem ao chat
+    chatMessages.appendChild(messageElement);
+
+    // Rola a tela para a nova mensagem
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+// Exemplo de uso
+displayImage('Usuário', 'https://exemplo.com/imagem.jpg');
+
     // Função para receber mensagens (Long Polling)
     const receiveMessages = async (lastMessageId = 0) => {
         try {

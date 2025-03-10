@@ -6,23 +6,34 @@
     <title>InimigosHUB - Unlocked</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        /* Estilo do botão "Jogar Retro Bowl" */
-        .retrobowl-button {
-            font-size: 12px;          /* Tamanho da fonte */
-            padding: 5px 10px;        /* Espaçamento interno (vertical, horizontal) */
-            border: 1px solid #ccc;   /* Borda fina */
-            border-radius: 4px;       /* Cantos arredondados */
-            background-color: #f0f0f0; /* Cor de fundo */
-            cursor: pointer;          /* Cursor de ponteiro ao passar o mouse */
-            text-decoration: none;    /* Remove sublinhado do texto */
-            color: #333;              /* Cor do texto */
-            display: inline-block;    /* Faz o botão ocupar apenas o espaço do texto */
-            margin-top: 20px;         /* Espaçamento acima do botão */
+        /* Estilo para as imagens no chat */
+        .chat__messages img {
+            max-width: 500px;
+            max-height: 500px;
+            width: auto;
+            height: auto;
+            display: block;
+            margin: 10px 0;
+            border-radius: 8px;
+            object-fit: cover;
         }
 
-        /* Efeito ao passar o mouse */
+        /* Estilo do botão "Jogar Retro Bowl" */
+        .retrobowl-button {
+            font-size: 12px;
+            padding: 5px 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background-color: #f0f0f0;
+            cursor: pointer;
+            text-decoration: none;
+            color: #333;
+            display: inline-block;
+            margin-top: 20px;
+        }
+
         .retrobowl-button:hover {
-            background-color: #e0e0e0; /* Cor de fundo ao passar o mouse */
+            background-color: #e0e0e0;
         }
     </style>
 </head>
@@ -31,15 +42,13 @@
         <div class="chat__messages"></div>
         <form class="chat__form">
             <input type="text" class="chat__input" placeholder="Digite sua mensagem">
-            <button type="button" id="send-button">Enviar mensagem</button> <!-- type="button" evita o submit automático -->
+            <button type="button" id="send-button">Enviar mensagem</button>
         </form>
     </div>
 
     <!-- Botão "Jogar Retro Bowl" -->
-    <div style="text-align: center;">
-        <button class="retrobowl-button" onclick="window.location.href='retrobowl.html'">Jogar Retro Bowl!</button>
-    </div>
-    
+    <button class="retrobowl-button" onclick="window.location.href='retrobowl.html'">Jogar Retro Bowl</button>
+
     <script src="chat.js"></script>
 </body>
 </html>
